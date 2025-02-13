@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -18,6 +20,19 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Define the BuildConfig field
+        val properties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { properties.load(it) }
+        }
+        val hfAccessToken = properties.getProperty("HF_ACCESS_TOKEN", "")
+        buildConfigField("String", "HF_ACCESS_TOKEN", "\"$hfAccessToken\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -64,7 +79,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
-    implementation ("com.google.mediapipe:tasks-genai:0.10.14")
+    implementation ("com.google.mediapipe:tasks-genai:0.10.21")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

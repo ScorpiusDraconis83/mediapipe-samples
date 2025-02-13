@@ -18,8 +18,7 @@ import SwiftUI
 struct InferenceExampleApp: App {
   var body: some Scene {
     WindowGroup {
-      ConversationScreen()
-        .environmentObject(ConversationViewModel())
+      ModelSelectionScreen()
     }
   }
 }
